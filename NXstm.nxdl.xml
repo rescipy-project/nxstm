@@ -35,17 +35,18 @@
             This group contains all the data and associated information that
             comprise a single measurement.
             
-            By definition, a single measurement includes all and only the data
-            acquired in a defined time period, which is linked to each other.
+            A single measurement can be defined as all and only the data
+            acquired in a defined time period, which are linked to each other,
+            and is the minimum dataset to represent a meaningful measurement.
             
-            Examples of single measurements for STM include:
+            Examples of single measurements for STM include but are not limited to:
             
             * Topography and current channels, both forward and backward scans
             if present, which were acquired simultaneously. For each of these (4)
             channels an NXdata group will be present in this NXentry.
             
-            * Spectra taken at points along a line, possibly multiple times for
-            each point. For each of these spectra an NXdata group will be present
+            * Spectra taken at points along a single line, possibly multiple times
+            for each point. For each of these spectra an NXdata group will be present
             in this NXentry.
         </doc>
         <field name="title" type="NX_CHAR">
@@ -55,18 +56,20 @@
         </field>
         <field name="start_time" type="NX_DATE_TIME">
             <doc>
-                Date and time of measurement start. ISO8601 date/time stamp:
-                yyyy-mm-ddThh:mm:ss+UTC-offset (e.g. 2021-03-31T18:17:54+02:00) (required).
+                Date and time of measurement start. In ISO8601 format:
+                yyyy-mm-ddThh:mm:ss+UTC_offset (e.g. 2019-02-25T10:17:54+01:00). (required)
             </doc>
         </field>
         <field name="duration" type="NX_FLOAT" units="NX_TIME">
             <doc>
-                Duration of the measurement.
+                Duration of the measurement. In ISO8601 format.
             </doc>
         </field>
         <field name="definition"  type="NX_CHAR">
             <doc>
-                NeXus NXDL schema to which this file conforms.
+                NeXus NXDL schema to which this file conforms. (required)
+                
+                Here set as "NXstm".
             </doc>
             <enumeration>
                 <item value="NXstm"/>
@@ -81,7 +84,9 @@
             </doc>
             <field name="name">
                 <doc>
-                    Name of the instrument.
+                    Name of the instrument. (required)
+                    
+                    Here set as "Scanning tunneling microscope".
                 </doc>
                 <enumeration>
                     <item value="Scanning tunneling microscope"/>
@@ -89,6 +94,8 @@
                 <attribute name="short_name">
                     <doc>
                         Acronym for the instrument.
+                        
+                        Here set as "STM".
                     </doc>
                     <enumeration>
                         <item value="STM"/>
@@ -97,29 +104,32 @@
             </field>
             <field name="current_setpoint" type="NX_FLOAT" units="NX_CURRENT">
                 <doc>
-                    Setpoint for the tunneling current (required).
+                    Setpoint for the tunneling current when feedback loop is
+                    active [amperes]. (required)
                 </doc>
             </field>
             <field name="bias" type="NX_FLOAT" units="NX_VOLTAGE">
                 <doc>
-                    Bias applied to the sample during measurement (required).
-
-                    Usually it is the same as "bias_setpoint", but it could differ
+                    Bias applied to the sample during data acquisition [volts]. (required)
+                    
+                    Usually this is the same as "bias_setpoint", but it could differ
                     e.g. in constant height measurements with feedback loop not active.
                 </doc>
             </field>
             <field name="bias_setpoint" type="NX_FLOAT" units="NX_VOLTAGE">
                 <doc>
-                    Bias applied to the sample when feedback loop is active (required).
-
-                    Usually it is the same as "bias", but it could differ e.g.
+                    Bias applied to the sample when feedback loop is active [volts]. (required)
+                    
+                    Usually this is the same as "bias", but it could differ e.g.
                     in constant height measurements with feedback loop not active.
                 </doc>
             </field>
             <field name="feedback_active" type="NX_BOOLEAN">
                 <doc>
-                    Whether the feedback loop is close/active or
-                    open during measurement (required). Allowed values:
+                    Whether the feedback loop is close/active (True) or
+                    open/not active (False) during data acquisition. (required)
+                    
+                    Allowed values:
                     
                     * True (closed loop, constant current mode)
                     * False (open loop, constant height mode)
@@ -127,7 +137,9 @@
             </field>
             <field name="feedback_type" type="NX_CHAR">
                 <doc>
-                    Type of feedback loop:
+                    Type of feedback loop.
+                    
+                    Allowed values:
                     
                     * linear
                     * logarithmic
@@ -139,143 +151,143 @@
             </field>
             <field name="feedback_pgain" type="NX_FLOAT">
                 <doc>
-                    Proportional gain of the feedback loop.
+                    Proportional gain of the feedback loop [meters].
                 </doc>
             </field>
             <field name="feedback_igain" type="NX_FLOAT">
                 <doc>
-                    Integral gain of the feedback loop.
-                </doc>
-            </field>
-            <field name="scan_angle" type="NX_FLOAT" units="NX_ANGLE">
-                <doc>
-                    Rotation angle of the scan.
-                </doc>
-            </field>
-            <field name="time_per_point" type="NX_FLOAT" units="NX_TIME">
-                <doc>
-                    Acquisition time for each point value in data (required).
-                </doc>
-            </field>
-            <field name="x_offset" type="NX_FLOAT" units="NX_LENGTH">
-                <doc>
-                    Absolute offset along the x axis of the center of the image
-                    with respect to the scan area center.
-                    
-                    Point spectra y positions relative to this offset (i.e. relative
-                    to the image center) are specified into a data variable.
-                </doc>
-            </field>
-            <field name="y_offset" type="NX_FLOAT" units="NX_LENGTH">
-                <doc>
-                    Absolute offset along the y axis of the center of the image
-                    with respect to the scan area center.
-                    
-                    Point spectra y positions relative to this offset (i.e. relative
-                    to the image center) are specified into a data variable.
-                </doc>
-            </field>
-            <field name="z_offset" type="NX_FLOAT" units="NX_LENGTH">
-                <doc>
-                    Additional Z offset with respect to setpoint position.
-                    
-                    Applicable if feedback_active=False (constant height
-                    mode).
-                    It is positive if tip is retracted from the sample and
-                    negative if it is approached toward the sample.
-                </doc>
-            </field>
-            <field name="x_slope_compensation" type="NX_FLOAT" units="NX_ANGLE">
-                <doc>
-                    Surface slope compensation along x axis.
-                </doc>
-            </field>
-            <field name="y_slope_compensation" type="NX_FLOAT" units="NX_ANGLE">
-                <doc>
-                    Surface slope compensation along y axis.
-                </doc>
-            </field>
-            <field name="x_drift_vector" type="NX_FLOAT">
-                <doc>
-                    Drift speed vector along x direction.
-                </doc>
-            </field>
-            <field name="y_drift_vector" type="NX_FLOAT">
-                <doc>
-                    Drift speed vector along y direction.
-                </doc>
-            </field>
-            <field name="z_drift_vector" type="NX_FLOAT">
-                <doc>
-                    Drift speed vector along z direction.
-                </doc>
-            </field>
-            <field name="x_piezo_sensitivity" type="NX_FLOAT">
-                <doc>
-                    Piezo sensitivity along the x scan direction.
-                </doc>
-            </field>
-            <field name="y_piezo_sensitivity" type="NX_FLOAT">
-                <doc>
-                    Piezo sensitivity along the y scan direction.
-                </doc>
-            </field>
-            <field name="z_piezo_sensitivity" type="NX_FLOAT">
-                <doc>
-                    Piezo sensitivity along the z scan direction.
+                    Integral gain of the feedback loop [meters/second].
                 </doc>
             </field>
             <field name="preamp_gain" type="NX_INT">
                 <doc>
-                    Current/voltage amplification factor of the preamplifier.
+                    Current amplification factor of the preamplifier I-V converter [volts/ampere].
                 </doc>
             </field>
             <field name="preamp_cutoff_frequency" type="NX_FREQUENCY">
                 <doc>
-                    Cutoff frequency of the preamplifier.
+                    Cutoff frequency of the preamplifier [hertz].
+                </doc>
+            </field>
+            <field name="z_offset" type="NX_FLOAT" units="NX_LENGTH">
+                <doc>
+                    Additional Z offset with respect to setpoint position [meters].
+                    
+                    Applicable if feedback_active=False (constant height
+                    mode). It is positive if tip is retracted from the sample and
+                    negative if it is approached toward the sample.
+                </doc>
+            </field>
+            <field name="time_per_point" type="NX_FLOAT" units="NX_TIME">
+                <doc>
+                    Acquisition time for each point value in data [seconds]. (required)
+                </doc>
+            </field>
+            <field name="scan_angle" type="NX_FLOAT" units="NX_ANGLE">
+                <doc>
+                    Rotation angle of the scan [degrees]. (required)
+                </doc>
+            </field>
+            <field name="scan_offset_x" type="NX_FLOAT" units="NX_LENGTH">
+                <doc>
+                    Absolute offset along the x axis of the center of the image
+                    with respect to the scan area center [meters].
+                    
+                    Point spectra y positions relative to this offset (i.e. relative
+                    to the image center) are specified into a data variable.
+                </doc>
+            </field>
+            <field name="scan_offset_y" type="NX_FLOAT" units="NX_LENGTH">
+                <doc>
+                    Absolute offset along the y axis of the center of the image
+                    with respect to the scan area center [meters].
+                    
+                    Point spectra y positions relative to this offset (i.e. relative
+                    to the image center) are specified into a data variable.
+                </doc>
+            </field>
+            <field name="scan_slope_x" type="NX_FLOAT" units="NX_ANGLE">
+                <doc>
+                    Surface slope compensation along x axis [degrees].
+                </doc>
+            </field>
+            <field name="scan_slope_y" type="NX_FLOAT" units="NX_ANGLE">
+                <doc>
+                    Surface slope compensation along y axis [degrees].
+                </doc>
+            </field>
+            <field name="drift_vector_x" type="NX_FLOAT">
+                <doc>
+                    Drift speed vector along x direction [meters/second].
+                </doc>
+            </field>
+            <field name="drift_vector_y" type="NX_FLOAT">
+                <doc>
+                    Drift speed vector along y direction [meters/second].
+                </doc>
+            </field>
+            <field name="drift_vector_z" type="NX_FLOAT">
+                <doc>
+                    Drift speed vector along z direction [meters/second].
+                </doc>
+            </field>
+            <field name="piezo_sensitivity_x" type="NX_FLOAT">
+                <doc>
+                    Piezo sensitivity along the x scan direction [meters/volt].
+                </doc>
+            </field>
+            <field name="piezo_sensitivity_y" type="NX_FLOAT">
+                <doc>
+                    Piezo sensitivity along the y scan direction [meters/volt].
+                </doc>
+            </field>
+            <field name="piezo_sensitivity_z" type="NX_FLOAT">
+                <doc>
+                    Piezo sensitivity along the z scan direction [meters/volt].
                 </doc>
             </field>
             <field name="bias_mod_amplitude" type="NX_FLOAT" units="NX_VOLTAGE">
                 <doc>
                     Bias amplitude modulation for spectroscopy measurements with
-                    lock-in technique.
+                    lock-in technique [volts].
                 </doc>
             </field>
             <field name="bias_mod_frequency" type="NX_FLOAT" units="NX_FREQUENCY">
                 <doc>
                     Bias frequency modulation for spectroscopy measurements with
-                    lock-in technique.
+                    lock-in technique [hertz].
                 </doc>
             </field>
             <field name="z_mod_amplitude" type="NX_FLOAT" units="NX_VOLTAGE">
                 <doc>
                     Amplitude modulation on z direction for spectroscopy measurements
-                    with lock-in technique.
+                    with lock-in technique [meters].
                 </doc>
             </field>
             <field name="z_mod_frequency" type="NX_FLOAT" units="NX_FREQUENCY">
                 <doc>
                     Frequency modulation on z direction for spectroscopy measurements
-                    with lock-in technique.
+                    with lock-in technique [hertz].
                 </doc>
             </field>
         </group>
         <group type="NXsample">
             <field name="name" type="NX_CHAR">
                 <doc>
-                    Descriptive name of the sample (required).
+                    Descriptive name of the sample. (required)
                 </doc>
             </field>
             <field name="temperature" type="NX_FLOAT" units="NX_TEMPERATURE">
                 <doc>
-                    Temperature of the sample during measurement (required).
+                    Temperature of the sample during data acquisition [kelvin]. (required)
                 </doc>
             </field>
         </group>
         <group type="NXdata">
             <attribute name="signal">
                 <doc>
-                    Declares which dataset is the default. 
+                    Declares which dataset is the default. (required)
+                    
                     The value is the name of the dataset to be plotted.
                     A field of this name *must* exist (either as dataset 
                     or as a link to a dataset).
@@ -283,10 +295,12 @@
             </attribute>
             <attribute name="axes">
                 <doc>
-                    String array that defines the independent data fields used in 
-                    the default plot for all of the dimensions of the *signal* field
-                    (the *signal* field is the field in this group that is named by
-                    the ``signal`` attribute of this group). 
+                    String array that defines the independent data fields or
+                    coordinates. (required)
+                    
+                    Used in the default plot for all of the dimensions of the *signal*
+                    field (the *signal* field is the field in this group that is named
+                    by the ``signal`` attribute of this group). 
                     One entry is provided for every dimension in the *signal* field.
                 </doc>
             </attribute>
@@ -295,17 +309,17 @@
                     Each ``AXISNAME_indices`` attribute indicates the dependency
                     relationship of the ``AXISNAME`` field (where ``AXISNAME`` 
                     is the name of a field that exists in this ``NXdata`` group) 
-                    with one or more dimensions of the plottable data.
+                    with one or more dimensions of the plottable data. (required)
                 </doc>
             </attribute>
             <field name="DATA" type="NX_NUMBER" nameType="any">
                 <doc>
                     This field contains the data values to be used as the 
-                    NeXus *plottable data*.
+                    NeXus plottable data.
                 </doc>
                 <attribute name="units">
                     <doc>
-                        Units for the values in data (required).
+                        Units for the values in data. (required)
                     </doc>
                 </attribute>
                 <attribute name="long_name">
@@ -315,7 +329,7 @@
                 </attribute>
                 <attribute name="interpretation">
                     <doc>
-                        Describes how to display the data (required).
+                        Describes how to display the data. (required)
                         
                         Allowed values are:
                         
@@ -334,13 +348,13 @@
             </field>
             <field name="VARIABLE" type="NX_NUMBER" nameType="any">
                 <doc>
-                    Coordinates along an axis of the data.
+                    Coordinates array along an axis of the data.
 
                     For each data dimension exists one of this fields.
                 </doc>
                 <attribute name="units">
                     <doc>
-                        Units of the axis (required).
+                        Units of the axis. (required)
                     </doc>
                 </attribute>
                 <attribute name="long_name">
@@ -364,41 +378,42 @@
                     If not applicable it equals to 0.
                 </doc>
             </field>
-            <field name="x_points" type="NX_POSINT">
+            <field name="points_x" type="NX_POSINT">
                 <doc>
                     Number of points acquired along the x axis.
                 </doc>
             </field>
-            <field name="y_points" type="NX_POSINT">
+            <field name="points_y" type="NX_POSINT">
                 <doc>
                     Number of points acquired along the y axis.
-                </doc>
-            </field>
-            <field name="x_size" type="NX_FLOAT" units="NX_LENGTH">
-                <doc>
-                    Lateral size of the scanned image along the x axis (required).
                     
-                    It has to match the units of the relative axis coordinate.
                     Applies only to image or vertex data.
                 </doc>
             </field>
-            <field name="y_size" type="NX_FLOAT" units="NX_LENGTH">
+            <field name="points_z" type="NX_POSINT">
                 <doc>
-                    Lateral size of the scanned image along the y axis (required).
+                    Number of points acquired along the z axis.
                     
-                    It has to match the units of the relative axis coordinate.
+                    Applies only to vertex data.
+                </doc>
+            </field>
+            <field name="size_x" type="NX_FLOAT" units="NX_LENGTH">
+                <doc>
+                    Lateral size of the scanned image along the x axis. (required)
+                    
+                    It has to match the units of the relative axis coordinate [meters].
                     Applies only to image or vertex data.
                 </doc>
             </field>
-            <field name="x_range" type="NX_FLOAT">
+            <field name="size_y" type="NX_FLOAT" units="NX_LENGTH">
                 <doc>
-                    Range of the spectrum along the x axis (required).
+                    Lateral size of the scanned image along the y axis. (required)
                     
-                    It has to match the units of the relative axis coordinate.
-                    Applies only to spectrum data.
+                    It has to match the units of the relative axis coordinate [meters].
+                    Applies only to image or vertex data.
                 </doc>
             </field>
-            <field name="x_scan_direction" type="NX_CHAR">
+            <field name="scan_direction_x" type="NX_CHAR">
                 <doc>
                     Scan direction along x axis.
                     
@@ -413,7 +428,7 @@
                     <item value="negative"/>
                 </enumeration>
             </field>
-            <field name="y_scan_direction" type="NX_CHAR">
+            <field name="scan_direction_y" type="NX_CHAR">
                 <doc>
                     Scan direction along y axis.
                     
