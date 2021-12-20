@@ -102,6 +102,13 @@
                     </enumeration>
                 </attribute>
             </field>
+            <field name="instrumentID" type="NX_CHAR">
+            </field>
+            <field name="instrumentManufacturer" type="NX_CHAR">
+                    "manufacturerName"
+                    "modelName"
+                    "manufacturerID"
+            </field>
             <field name="current_setpoint" type="NX_FLOAT" units="NX_CURRENT">
                 <doc>
                     Setpoint for the tunneling current when feedback loop is
@@ -178,7 +185,7 @@
                     negative if it is approached toward the sample.
                 </doc>
             </field>
-            <field name="time_per_point" type="NX_FLOAT" units="NX_TIME">
+            <field name="dwell_time" type="NX_FLOAT" units="NX_TIME">
                 <doc>
                     Acquisition time for each point value in data [seconds]. (required)
                 </doc>
