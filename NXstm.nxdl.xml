@@ -29,6 +29,8 @@
     >
     <doc>
         Application definition for scanning tunneling microscopy (STM).
+        
+        v0.1.0.
     </doc>
     <group type="NXentry">
         <doc>
