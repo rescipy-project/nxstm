@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="nxdlformat.xsl" ?>
 <!--
-# NeXus - Neutron and X-ray Common Data Format
+# NXstm
 # 
-# Copyright (C) 2021 Mirco Panighel
+# Copyright (C) 2022 Mirco Panighel
 # 
 # This library is free software; you can redistribute it and/or
 # modify it under the terms of the GNU Lesser General Public
@@ -30,7 +30,7 @@
     <doc>
         Application definition for scanning tunneling microscopy (STM).
         
-        v0.3.0.
+        v0.4.0.
     </doc>
     <group type="NXentry">
         <doc>
@@ -354,6 +354,86 @@
                         <item value="vertex"/>
                     </enumeration>
                 </attribute>
+                <attribute name="scaling_factor">
+                    <doc>
+                        Data scaling factor. It is required to get the data physical values.
+
+                        If not applicable it equals to 1.
+                    </doc>
+                </attribute>
+                <attribute name="offset">
+                    <doc>
+                        An offset to apply to the data to get the physical values.
+
+                        It has to match the units of the data values.
+                        If not applicable it equals to 0.
+                    </doc>
+                </attribute>
+                <attribute name="points_x">
+                    <doc>
+                        Number of points acquired along the x axis.
+                    </doc>
+                </attribute>
+                <attribute name="points_y">
+                    <doc>
+                        Number of points acquired along the y axis.
+                        
+                        Applies only to image or vertex data.
+                    </doc>
+                </attribute>
+                <attribute name="points_z">
+                    <doc>
+                        Number of points acquired along the z axis.
+                        
+                        Applies only to vertex data.
+                    </doc>
+                </attribute>
+                <attribute name="size_x">
+                    <doc>
+                        Lateral size of the scanned image along the x axis. (required)
+                        
+                        It has to match the units of the relative axis coordinate [meters].
+                        Applies only to image or vertex data.
+                    </doc>
+                </attribute>
+                <attribute name="size_y">
+                    <doc>
+                        Lateral size of the scanned image along the y axis. (required)
+                        
+                        It has to match the units of the relative axis coordinate [meters].
+                        Applies only to image or vertex data.
+                    </doc>
+                </attribute>
+                <attribute name="scan_direction_x">
+                    <doc>
+                        Scan direction along x axis.
+                        
+                        Applies only to image or vertex data.
+                        Allowed values are:
+                        
+                        * positive
+                        * negative
+                    </doc>
+                    <enumeration>
+                        <item value="positive"/>
+                        <item value="negative"/>
+                    </enumeration>
+                </attribute>
+                <attribute name="scan_direction_y">
+                    <doc>
+                        Scan direction along y axis.
+                        
+                        Applies only to image or vertex data.
+                        Allowed values are:
+                        
+                        * positive
+                        * negative
+                    </doc>
+                    <enumeration>
+                        <item value="positive"/>
+                        <item value="negative"/>
+                    </enumeration>
+                </attribute>
             </field>
             <field name="VARIABLE" type="NX_NUMBER" nameType="any">
                 <doc>
@@ -371,86 +451,6 @@
                         Axis label.
                     </doc>
                 </attribute>
-            </field>
-            <field name="scaling_factor" type="NX_FLOAT">
-                <doc>
-                    Data scaling factor. It is required to get the data physical values.
-
-                    If not applicable it equals to 1.
-                </doc>
-            </field>
-            <field name="offset" type="NX_FLOAT">
-                <doc>
-                    An offset to apply to the data to get the physical values.
-
-                    It has to match the units of the data values.
-                    If not applicable it equals to 0.
-                </doc>
-            </field>
-            <field name="points_x" type="NX_POSINT">
-                <doc>
-                    Number of points acquired along the x axis.
-                </doc>
-            </field>
-            <field name="points_y" type="NX_POSINT">
-                <doc>
-                    Number of points acquired along the y axis.
-                    
-                    Applies only to image or vertex data.
-                </doc>
-            </field>
-            <field name="points_z" type="NX_POSINT">
-                <doc>
-                    Number of points acquired along the z axis.
-                    
-                    Applies only to vertex data.
-                </doc>
-            </field>
-            <field name="size_x" type="NX_FLOAT" units="NX_LENGTH">
-                <doc>
-                    Lateral size of the scanned image along the x axis. (required)
-                    
-                    It has to match the units of the relative axis coordinate [meters].
-                    Applies only to image or vertex data.
-                </doc>
-            </field>
-            <field name="size_y" type="NX_FLOAT" units="NX_LENGTH">
-                <doc>
-                    Lateral size of the scanned image along the y axis. (required)
-                    
-                    It has to match the units of the relative axis coordinate [meters].
-                    Applies only to image or vertex data.
-                </doc>
-            </field>
-            <field name="scan_direction_x" type="NX_CHAR">
-                <doc>
-                    Scan direction along x axis.
-                    
-                    Applies only to image or vertex data.
-                    Allowed values are:
-                    
-                    * positive
-                    * negative
-                </doc>
-                <enumeration>
-                    <item value="positive"/>
-                    <item value="negative"/>
-                </enumeration>
-            </field>
-            <field name="scan_direction_y" type="NX_CHAR">
-                <doc>
-                    Scan direction along y axis.
-                    
-                    Applies only to image or vertex data.
-                    Allowed values are:
-                    
-                    * positive
-                    * negative
-                </doc>
-                <enumeration>
-                    <item value="positive"/>
-                    <item value="negative"/>
-                </enumeration>
             </field>
         </group>
     </group>
