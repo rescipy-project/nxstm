@@ -173,7 +173,7 @@
                     Current amplification factor of the preamplifier I-V converter [volts/ampere].
                 </doc>
             </field>
-            <field name="preamp_cutoff_frequency" type="NX_FREQUENCY">
+            <field name="preamp_cutoff_frequency" type="NX_FLOAT" units="NX_FREQUENCY">
                 <doc>
                     Cutoff frequency of the preamplifier [hertz].
                 </doc>
