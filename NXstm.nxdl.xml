@@ -30,7 +30,7 @@
     <doc>
         Application definition for scanning tunneling microscopy (STM).
         
-        v0.4.2.
+        v0.4.3.
     </doc>
     <group type="NXentry">
         <doc>
@@ -109,7 +109,6 @@
             <field name="instrumentManufacturer" type="NX_CHAR">
                     "manufacturerName"
                     "modelName"
-                    "manufacturerID"
             </field>
             <field name="current_setpoint" type="NX_FLOAT" units="NX_CURRENT">
                 <doc>
